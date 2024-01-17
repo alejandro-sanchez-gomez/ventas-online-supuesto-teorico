@@ -1,0 +1,79 @@
+---
+title: 'Minería de datos: PEC1'
+author: "Autor: Alejandro Sánchez Gómez"
+date: "octubre 2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# EJERCICIO 1
+
+## ENUNCIADO
+
+Propón un proyecto completo de minería de datos. La organización de la respuesta tiene que coincidir en las fases típicas del ciclo de vida de un proyecto de minería de datos. **No hay que realizar las tareas de la fase**. Para cada fase indica cuál es el objetivo de la fase y el producto que se obtendrá. Utiliza ejemplos de qué y cómo podrían ser las tareas. Si hay alguna característica que hace diferente el ciclo de vida de un proyecto de minería respecto a otros proyectos indícalo.
+
+## SOLUCIÓN
+
+### Presentación del caso 
+
+La empresa que nos ha solicitado realizar el proyecto es una cadena de supermercados internacional que busca como objetivo incrementar sus ventas online. 
+
+No tenemos límite de presupuesto ni de tiempo, pero se nos pide que se realice de la forma más económica posible, tanto por tiempo como por capital. El proyecto consiste en determinar el pérfil o perfiles de los clientes que realizan compras en nuestro supermercado de forma remota. Para ello, emplearemos una mezcla del proceso CRISP-DM con las fases de la minería de datos explicados en el módulo El proceso de minería de datos. 
+
+Mediante la información de nuestro proyecto, se podrán realizar proyectos de minería de datos futuros con el objetivo de aumentar los ingresos a partir de estos tipos de clientes. Esto se logrará mediante dos estrategias: 
+
+• Aumentando el número de éstos mediante una campaña de publicidad inteligente. 
+• Aumentando el gasto de éstos mediante ofertas personalizadas que promocionan mayor consumismo.
+
+### Establecer un objetivo analítico 
+
+Nuestro objetivo es encontrar diferentes similitudes entre diferentes tipos de clientes, nuestra tarea a realizar es la de agrupar objetos parecidos, por lo que emplearemos modelos de agregación. Debido a que no tenemos información objetiva con la que contrastrar nuestros resultados, la tarea se considerará satisfecha si los perfiles definidos son satisfactorios para el equipo de marketing de la empresa.
+
+### Selección y comprensión de los datos 
+
+El primer paso a realizar será recolectar toda la información posible para analizar. Para ello, se ha pedido a la compañía que nos proporcione los datos autorizados de las cuentas online. Una vez tenemos los datos, documentamos toda la información relacionada de manera superficial con los datos entregados. Observamos que nos han entregado los datos en formato CSV, que disponemos de más de 500.000 registros y más de 20 claves de campo. A simple vista se observa lo siguiente: 
+
+• Exceptuando algunas excepciones, los datos son de calidad y será fácil extraer conclusiones. 
+
+• Hay diversos registros y campos que será necesario tratar.
+
+### Preproceso de los datos 
+
+Para realizar la preparación de datos, se comenzará realizando una reducción de dimensionalidad combinada con una transformación de datos. 
+
+• Se han eliminado todos aquellos atributos que no contienen información útil para determinar el perfil. Destacan aquellos atributos que guardan identificadores numéricos de tarjetas o de registros. 
+
+• Se han derivado diversos registros a otros más útiles. 
+
+  o Los atributos Nombre y Apellidos se han derivado al atributo Género. 
+  
+  o A partir de los diversos atributos de gasto, se han derivado a dos atributos, se le ha aplicado discretización y luego se ha transformados los datos de numéricos a categóricos: Nivel de gasto semanal y Nivel de gasto mensual, con renta baja, media, alta como categorías. 
+
+• El número total de atributos acaba resultando en 9. 
+
+Reduciremos el número de registros a emplear de 500.000 a 700. El criterio para escoger estos registros es aleatorio. A continuación, se ha realizado una limpieza de datos a partir de los diversos factores de dispersión. El resultado de las siguientes tareas ha reducido el número de registros a 630: 
+
+• Datos incompletos: Se han eliminado diversos registros de cuentas que carecen de información suficiente para analizar. Es el caso de aquellos registros que no han comprado nada. 
+
+• Datos redundantes: Diversos registros hacen referencia a la misma persona. Se ha optado por conservar los registros de aquellas compras más próximas a la fecha actual. 
+
+• Datos incorrectos: Diversos registros tienen datos incorrectos en referencia a calles inexistentes, faltas de ortografía en estas o en los nombres ... En algunos casos se han arreglado los datos, en otros se han eliminado los registros y en otros se ha optado por ignorarlos. El criterio se ha realizado de forma holística. 
+
+• Datos envejecidos: Diversos registros hacen referencia a datos que no es posible que existan. Una vez se han eliminado la mayoría de registros incorrectos, procedemos a
+
+### Creación, evaluación e interpretación del modelo 
+
+Puesto que necesitamos un modelo de agrupación de datos y disponemos de una base de datos, pero carecemos de conocimiento a priori, lo mejor será emplear un modelo no supervisado de agrupación por lotes. No hay ningún algoritmo que a priori nos pueda beneficiar, pues estamos tratando de crear un perfil que no sabemos cómo es. Por ello, se recomienda aplicar dos algoritmos y contrastarlos: K-Means y DBSCAN. 
+
+El primero es una distribución basada en centroides, mientras que el segundo está basado en densidad. El primero es útil emplearlo en el caso de que la densidad de datos entre todos los posibles perfiles sea parecida, mientras que la segunda es útil en el caso de que haya una clara diferencia de densidad entre posibles perfiles. Como que existe la posibilidad que sólo exista un perfil específico de cliente, me decantaría por emplear primero DBSCAN y luego contrastarlo con K-Means. DBSCAN ofrece dos perfiles en dos regiones claramente distintas, mientras que K-Means no ofrece la misma certeza. Se obtienen por tanto, dos perfiles: Mujer de renta media-alta, de poco más de 30 años, con familia y Hombre de renta baja-media, de menos de 30 años y sin familia .
+
+### Reproducibilidad 
+
+Realizamos la misma tarea pero con registros diferentes. Se observa que seguimos obteniendo los dos mismos perfiles.
+
+### Despliegue e integración de los datos 
+
+Una vez hemos creados ambos modelos, serán enviados al equipo de marketing para que nos den el visto bueno. Para ello, se procede a presentar el resultado de nuestro proyecto a los diferentes Stakeholders mediante un análisis y presentación altamente comprensible y visual.
